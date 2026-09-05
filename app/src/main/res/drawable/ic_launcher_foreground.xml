@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Kleine Rasten der Skala -->
+    <path
+        android:pathData="M33,60 V68 M40,60 V68 M47,60 V68 M61,60 V68 M68,60 V68 M75,60 V68"
+        android:strokeColor="#59FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+    <!-- Beschriftete Rasten, die mittlere steht unter dem Zeiger -->
+    <path
+        android:pathData="M26,54 V68 M54,54 V68 M82,54 V68"
+        android:strokeColor="#B3FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3.5" />
+    <!-- Zeiger -->
+    <path
+        android:fillColor="#FF4FD1A5"
+        android:pathData="M47.5,36 L60.5,36 L54,48 Z" />
+</vector>

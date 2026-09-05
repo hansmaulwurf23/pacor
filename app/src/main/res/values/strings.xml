@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Pacor</string>
+
+    <string name="dist_1k">1 km</string>
+    <string name="dist_5k">5 km</string>
+    <string name="dist_10k">10 km</string>
+    <string name="dist_half">Halbmarathon</string>
+    <string name="dist_marathon">Marathon</string>
+
+    <string name="label_time">Zeit</string>
+    <string name="label_pace">Pace</string>
+    <string name="unit_pace">min/km</string>
+    <string name="badge_computed">berechnet</string>
+    <string name="speed_kmh">%1$s km/h</string>
+    <string name="hint_usage">An einer der beiden Walzen ziehen — die andere Seite rechnet mit</string>
+
+    <string name="cd_time_wheel">Zeit einstellen, aktuell</string>
+    <string name="cd_pace_wheel">Pace einstellen, aktuell</string>
+
+    <string name="about">About</string>
+    <!-- Absichtlich englisch und nicht übersetzt: so vom Autor gewünscht. -->
+    <string name="about_built_by">Built by Martin and Claude with ❤️</string>
+    <string name="about_version">Version: %1$s (%2$s)</string>
+</resources>
