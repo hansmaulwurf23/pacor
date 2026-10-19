@@ -43,7 +43,7 @@ Signierte APKs hängen an den [Releases](https://gitlab.noisebleed.de/pub/pacor/
 Direktlink der jeweils aktuellen Version:
 
 ```
-https://gitlab.noisebleed.de/api/v4/projects/54/packages/generic/pacor/1.0/Pacor-1.0.apk
+https://gitlab.noisebleed.de/api/v4/projects/54/packages/generic/pacor/1.1/Pacor-1.1.apk
 ```
 
 Zum Installieren die Datei auf dem Gerät öffnen. Android fragt einmalig nach der Erlaubnis, Apps aus
