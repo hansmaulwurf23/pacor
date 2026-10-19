@@ -5,9 +5,13 @@ Seite wird ausgerechnet. Kein Konto, kein Netz, keine Berechtigungen.
 
 ## Bedienung
 
-- **Strecke** — 1 km, 5 km, 10 km, Halbmarathon (21,0975 km) oder Marathon (42,195 km). Beim
-  Wechsel bleibt die Pace stehen und die Zeit wird neu gerechnet: die gewohnte Pace auf einer
+- **Strecke** — 1 km, 5 km, 10 km, HM (Halbmarathon, 21,0975 km) oder M (Marathon, 42,195 km).
+  Beim Wechsel bleibt die Pace stehen und die Zeit wird neu gerechnet: die gewohnte Pace auf einer
   anderen Strecke ist die übliche Frage, nicht umgekehrt.
+- **Eigene Strecke** — der Chip mit dem Stift öffnet ein Eingabefeld für 0,1 bis 1000 km (Komma
+  oder Punkt). Danach trägt der Chip die eingegebene Länge und merkt sie sich; erneutes Antippen
+  ändert sie. Die Zeit-Walze rastet dort nach denselben Stufen wie bei den festen Strecken, ab
+  60 km in Zehn-Minuten-Schritten.
 - **Walze ziehen** — waagerecht nach links oder rechts, mit Schwung auch weiter rollend. Wer die
   Zeit-Walze anfasst, gibt die Zielzeit vor und bekommt die Pace; wer die Pace-Walze anfasst,
   bekommt die Zeit. Einen Umschalter für die Richtung gibt es deshalb nicht — die angefasste
@@ -29,8 +33,9 @@ Seite wird ausgerechnet. Kein Konto, kein Netz, keine Berechtigungen.
   außen gemeldet wird.
 - `PaceMath` rechnet und formatiert, ganz ohne Android-Klassen, und ist deshalb in gewöhnlichen
   JVM-Tests geprüft (`app/src/test`).
-- `Distance` hält Streckenlänge und die dazu passende Rastung der Zeit-Walze.
-- `Prefs` sichert Strecke und Pace in den SharedPreferences.
+- `Distance` hält Streckenlänge und die dazu passende Rastung der Zeit-Walze — für die festen
+  Strecken fest eingetragen, für eine eigene nach Länge abgestuft.
+- `Prefs` sichert Strecke, eigene Strecke und Pace in den SharedPreferences.
 
 ## Download
 

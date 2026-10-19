@@ -1,6 +1,8 @@
 package de.noisebleed.pacor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -59,9 +61,41 @@ public class PaceMathTest {
 
     @Test
     public void streckenGrenzenPassenZurPaceSkala() {
-        for (Distance d : Distance.values()) {
+        for (Distance d : Distance.PRESETS) {
             assertEquals(PaceMath.PACE_MIN_SEC, PaceMath.paceForTime(d.getMinTimeSec(), d.getKm()));
             assertEquals(PaceMath.PACE_MAX_SEC, PaceMath.paceForTime(d.getMaxTimeSec(), d.getKm()));
         }
+    }
+
+    @Test
+    public void streckeFormat() {
+        assertEquals("15", PaceMath.formatKm(15d));
+        assertEquals("21,1", PaceMath.formatKm(21.1d));
+        assertEquals("0,4", PaceMath.formatKm(0.4d));
+        assertEquals("42,195", PaceMath.formatKm(42.195d));
+    }
+
+    @Test
+    public void streckeEinlesen() {
+        assertEquals(15d, PaceMath.parseKm("15"), 0d);
+        assertEquals(21.1d, PaceMath.parseKm(" 21,1 "), 0d);
+        assertEquals(21.1d, PaceMath.parseKm("21.1"), 0d);
+        assertEquals(0.4d, PaceMath.parseKm(",4"), 0d);
+        assertEquals(7d, PaceMath.parseKm("7,"), 0d);
+        assertTrue(Double.isNaN(PaceMath.parseKm("")));
+        assertTrue(Double.isNaN(PaceMath.parseKm("1,2,3")));
+        assertTrue(Double.isNaN(PaceMath.parseKm("NaN")));
+    }
+
+    @Test
+    public void eigeneStreckeRastetWieDieFesten() {
+        // Wer die Länge einer festen Strecke selbst eintippt, soll dieselbe Rastung bekommen.
+        for (Distance d : Distance.PRESETS) {
+            assertEquals(d.getTimeStepSec(), Distance.custom(d.getMeters()).getTimeStepSec());
+            assertEquals(d.getTimeMajorEvery(), Distance.custom(d.getMeters()).getTimeMajorEvery());
+        }
+        assertEquals(600, Distance.custom(100_000d).getTimeStepSec());
+        assertTrue(Distance.custom(15_000d).isCustom());
+        assertFalse(Distance.MARATHON.isCustom());
     }
 }

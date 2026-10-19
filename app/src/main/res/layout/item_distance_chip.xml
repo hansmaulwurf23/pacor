@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Eine Vorlage, aus der MainActivity die Chips für alle Strecken aufbaut. -->
+<!-- Eine Vorlage, aus der MainActivity die Chips für alle Strecken aufbaut. Die Abstände sind
+     knapper als im Standard, damit alle sechs Chips samt eigener Strecke in eine Zeile passen. -->
 <com.google.android.material.chip.Chip
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,4 +9,8 @@
     android:layout_height="wrap_content"
     android:checkable="true"
     android:textAppearance="?attr/textAppearanceLabelLarge"
-    app:checkedIconVisible="false" />
+    app:checkedIconVisible="false"
+    app:chipIconSize="16dp"
+    app:iconEndPadding="0dp"
+    app:textEndPadding="6dp"
+    app:textStartPadding="6dp" />

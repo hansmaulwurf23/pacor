@@ -26,6 +26,7 @@
             android:id="@+id/distance_chips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="6dp"
             app:selectionRequired="true"
             app:singleLine="true"
             app:singleSelection="true" />

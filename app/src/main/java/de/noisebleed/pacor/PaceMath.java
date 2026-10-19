@@ -1,5 +1,7 @@
 package de.noisebleed.pacor;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 /**
@@ -52,5 +54,24 @@ public final class PaceMath {
     /** Dieselbe Geschwindigkeit in km/h, eine Nachkommastelle, deutsches Komma. */
     public static String formatSpeed(int paceSecPerKm) {
         return String.format(Locale.GERMAN, "%.1f", 3600d / paceSecPerKm);
+    }
+
+    /** Strecke in Kilometern ohne überflüssige Nullen: {@code 15}, {@code 21,1}, {@code 0,4}. */
+    public static String formatKm(double km) {
+        return new DecimalFormat("0.###", DecimalFormatSymbols.getInstance(Locale.GERMAN)).format(km);
+    }
+
+    /**
+     * Liest eine eingetippte Strecke in Kilometern. Komma und Punkt gelten beide als
+     * Dezimaltrenner, weil die Tastatur je nach Gerät das eine oder das andere anbietet.
+     *
+     * @return die Kilometer, oder {@link Double#NaN}, wenn da keine Zahl steht.
+     */
+    public static double parseKm(String text) {
+        String s = text.trim().replace(',', '.');
+        if (!s.matches("\\d*\\.?\\d+|\\d+\\.")) {
+            return Double.NaN;
+        }
+        return Double.parseDouble(s);
     }
 }

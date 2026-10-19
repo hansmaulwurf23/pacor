@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/custom_distance_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/custom_distance_hint"
+        app:suffixText="km">
+
+        <!-- digits zusätzlich zu numberDecimal, sonst fehlt auf manchen Tastaturen das Komma. -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/custom_distance_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789,."
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:maxLength="8"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</FrameLayout>
