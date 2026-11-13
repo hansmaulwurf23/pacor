@@ -92,7 +92,7 @@ GitHub.
 
 ```bash
 # versionCode und versionName in app/build.gradle anheben, committen
-git tag -a v1.2 -m "Pacor 1.2" -m "- Was sich geändert hat" && git push origin main v1.2
+git tag -a v1.3 -m "Pacor 1.3" -m "- Was sich geändert hat" && git push origin main v1.3
 ```
 
 ## Lizenz
