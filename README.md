@@ -3,6 +3,8 @@
 Pace-Rechner für Android. Strecke antippen, dann an einer der beiden Walzen ziehen — die andere
 Seite wird ausgerechnet. Kein Konto, kein Netz, keine Berechtigungen.
 
+Eine bebilderte Kurzbeschreibung steht in [`docs/README.md`](docs/README.md).
+
 ## Bedienung
 
 - **Strecke** — 1 km, 5 km, 10 km, HM (Halbmarathon, 21,0975 km) oder M (Marathon, 42,195 km).
@@ -39,16 +41,16 @@ Seite wird ausgerechnet. Kein Konto, kein Netz, keine Berechtigungen.
 
 ## Download
 
-Signierte APKs hängen an den [Releases](https://gitlab.noisebleed.de/pub/pacor/-/releases). Der
-Direktlink der jeweils aktuellen Version:
-
-```
-https://gitlab.noisebleed.de/api/v4/projects/54/packages/generic/pacor/1.1/Pacor-1.1.apk
-```
+Signierte APKs hängen an den [Releases](https://github.com/hansmaulwurf23/pacor/releases), das
+neueste unter [releases/latest](https://github.com/hansmaulwurf23/pacor/releases/latest).
 
 Zum Installieren die Datei auf dem Gerät öffnen. Android fragt einmalig nach der Erlaubnis, Apps aus
 dieser Quelle zu installieren; Play Protect zeigt bei selbst signierten Apps eine Warnung, die man
-bestätigen kann. Voraussetzung ist Android 8 oder neuer.
+bestätigen kann. Voraussetzung ist Android 8 oder neuer. Eine neuere Version wird einfach über die
+installierte installiert; die gewählte Strecke und Pace bleiben erhalten.
+
+Bis Version 1.1 lag das Projekt auf gitlab.noisebleed.de (`pub/pacor`); das Projekt dort ist
+archiviert, die alten Releases sind hierher übernommen.
 
 ## Bauen und installieren
 
@@ -63,61 +65,36 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Release
 
-Der Signaturschlüssel liegt **nicht im Repo** (das ist öffentlich), sondern in
-`~/Documents/Android/own/pacor/` — per Syncthing zwischen den eigenen Rechnern gespiegelt und im
-Backup. `keystore.properties` daneben nennt Alias und Passwörter, `storeFile` wird relativ zu dieser
-Datei aufgelöst, der Ordner darf also auf jedem Rechner anders heißen. Ein abweichender Pfad geht
-über `-Ppacor.signing=…`; fehlt der Schlüssel ganz, bleibt das Release-APK unsigniert statt den
-Build zu brechen.
+Signaturschlüssel und `keystore.properties` liegen **nicht im Repo**, sondern in
+`~/Documents/Android/own/pacor/` (per Syncthing gespiegelt und im Backup); `storeFile` wird relativ
+zur Properties-Datei aufgelöst. Ein abweichender Pfad geht über `-Ppacor.signing=…`; fehlt der
+Schlüssel ganz, bleibt das Release-APK unsigniert statt den Build zu brechen.
 
 Ohne diesen Schlüssel lässt sich kein Update über eine installierte Version schieben — Verlust
 bedeutet, dass alle Nutzer erst deinstallieren müssten.
+
+Lokal bauen und prüfen:
 
 ```bash
 JAVA_HOME=~/.jdks/jdk-17.0.20.1+1 ./gradlew assembleRelease
 apksigner verify --print-certs app/build/outputs/apk/release/app-release.apk
 ```
 
-Anschließend Tag setzen, die APK in die Paket-Registry legen und das Release anlegen. Die Registry
-statt der Projekt-Uploads, weil nur ihre URL bei öffentlichen Projekten ohne Anmeldung funktioniert
-und einen Namespace-Wechsel übersteht:
+`.github/workflows/release.yml` testet, baut, signiert und veröffentlicht, sobald ein Tag `v<Ziffer>`
+gepusht wird. Der Text des annotierten Tags (ohne die erste Zeile) wird zur Release-Beschreibung.
+Zwei Prüfungen brechen absichtlich ab, statt ein kaputtes Release zu veröffentlichen: ein
+unsigniertes APK und ein `versionName`, der nicht zum Tag passt.
 
-```bash
-git tag -a v1.0 -m "Pacor 1.0" && git push origin v1.0
-mv app/build/outputs/apk/release/app-release.apk Pacor-1.0.apk
-curl --request PUT --header "PRIVATE-TOKEN: $TOKEN" --upload-file Pacor-1.0.apk \
-  "https://gitlab.noisebleed.de/api/v4/projects/54/packages/generic/pacor/1.0/Pacor-1.0.apk"
-glab release create v1.0 --name "Pacor 1.0" --notes "…" \
-  --assets-links "[{\"name\":\"Pacor 1.0 (Android-APK)\",\"url\":\"…\",\"link_type\":\"package\"}]"
-```
-
-Achtung: `glab release create` mit angehängter Datei schreibt die Asset-URL mit dem Host
-`gitlab.com` statt dem der eigenen Instanz — deshalb der Weg über `--assets-links` mit fertiger URL.
-
-## Release über CI
-
-`.gitlab-ci.yml` erledigt das alles selbst, sobald ein Tag der Form `v<Ziffer>` gepusht wird: bauen,
-signieren, in die Paket-Registry laden, Release mit Asset-Link anlegen. Für Branches läuft die
-Pipeline bewusst gar nicht.
-
-Solange auf der Instanz kein Runner mit dem Tag `docker` registriert ist, bleibt der Job allerdings
-liegen und die Pipeline wird rot — dann entsteht das Release von Hand wie oben beschrieben. Bei
-Focus ist das bis heute so. Der übliche Ablauf, sobald ein Runner da ist:
+Dafür braucht es die Repository-Secrets `ANDROID_KEYSTORE_B64` (`base64 -w0 pacor-release.jks`),
+`ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` (`pacor`) und `ANDROID_KEY_PASSWORD`, gesetzt mit
+`~/ops-scripts/android-github-secrets.sh pacor`; damit liegt eine zweite Kopie des Schlüssels bei
+GitHub.
 
 ```bash
 # versionCode und versionName in app/build.gradle anheben, committen
-git tag -a v1.1 -m "Pacor 1.1" && git push origin main && git push origin v1.1
+git tag -a v1.2 -m "Pacor 1.2" -m "- Was sich geändert hat" && git push origin main v1.2
 ```
 
-Zwei Prüfungen brechen den Job absichtlich ab, statt ein kaputtes Release zu veröffentlichen: das
-Umbenennen der APK schlägt fehl, wenn mangels Schlüssel nur `app-release-unsigned.apk` entstanden
-ist, und `versionName` im APK muss zum Tag passen — sonst zeigt der About-Dialog etwas anderes an,
-als der Download heißt.
+## Lizenz
 
-### Einmalige Einrichtung
-
-Wie bei [Focus](https://gitlab.noisebleed.de/pub/focus): Runner mit Docker-Executor und dem Tag
-`docker`, dazu die geschützten CI-Variablen `ANDROID_KEYSTORE_B64` (Typ File, Inhalt
-`base64 -w0 pacor-release.jks`), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` und
-`ANDROID_KEY_PASSWORD`. Das Tag-Muster `v*` muss geschützt sein, sonst gibt GitLab die Variablen
-nicht heraus.
+Der Code steht unter der [MIT-Lizenz](LICENSE).
